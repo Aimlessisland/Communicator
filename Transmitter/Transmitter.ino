@@ -1,4 +1,4 @@
-//Need to send data,
+
 /*
   define
   0x00	Brake light
@@ -20,10 +20,10 @@
 */
 
 #define btn1 3
-#define reverseInput 4;
-#define rearlightSwitch 5;
-#define leftSignal 6;
-#define rightSignal 7l
+#define reverseInput 4
+#define rearlightSwitch 5
+#define leftSignal 6
+#define rightSignal 7
 
 unsigned long previousMillisTask1 = 0;
 const long intervalTask1 = 50; 
@@ -33,7 +33,67 @@ const long intervalTask2 = 100;
 
 unsigned long previousMillisTask3 = 0;
 const long intervalTask3 = 1000;
+//////////////////////////////////////////////////////////////////////////////
+String brakeLight(){
+  byte btnInput = digitalRead(btn1);
+  String state = "00";
+  if(btnInput == HIGH){
+    state = "01";
+  }
+  else{
+    state = "00";
+  }
+  return "0x00"+state;
+}
 
+String reverseLight(){
+  byte rInput = digitalRead(reverseInput);
+  String state = "00";
+  if(rInput == HIGH){
+    state = "01";
+  }
+  else{
+    state = "00";
+  }
+  return "0x01"+state;
+}
+
+String rearLight(){
+  byte rsInput = digitalRead(rearlightSwitch);
+  String state = "00";
+  if(rsInput == HIGH){
+    state = "01";
+  }
+  else{
+    state = "00";
+  }
+  return "0x05"+state;
+}
+
+String returnleftSignal(){
+  byte leftSig = digitalRead(leftSignal);
+  String state = "00";
+  if(leftSig == HIGH){
+    state = "01";
+  }
+  else{
+    state = "00";
+  }
+  return "0x02"+state;
+}
+
+String returnrightSignal(){
+  byte rightSig = digitalRead(rightSignal);
+  String state = "00";
+  if(rightSig == HIGH){
+    state = "01";
+  }
+  else{
+    state = "00";
+  }
+  return "0x03"+state;
+}
+///////////////////////////////////////////
 void setup() {
   Serial.begin(115200);
   pinMode(btn1, INPUT_PULLUP);
@@ -50,8 +110,8 @@ void loop() {
     previousMillisTask1 = currentMillis;
     //high responsive
     Serial.print(brakeLight());
-    Serial.print(leftSignal());
-    Serial.print(rightSignal());
+    Serial.print(returnleftSignal());
+    Serial.print(returnrightSignal());
     Serial.println();
   }
 
@@ -68,63 +128,3 @@ void loop() {
   }
 }
 
-const char* brakeLight(){
-  btnInput = digitalRead(btn1);
-  state = "00";
-  if(btnInput == HIGH){
-    state = "01";
-  }
-  else{
-    state = "00";
-  }
-  return "0x00"+state;
-}
-
-const char* reverseLight(){
-  rInput = digitalRead(reverseInput);
-  state = "00";
-  if(rInput == HIGH){
-    state = "01";
-  }
-  else{
-    state = "00"
-  }
-  return "0x01"+state;
-}
-
-const char* rearLight(){
-  rsInput = digitalRead(rearlightSwitch);
-  state = "00";
-  if(rsInput == HIGH){
-    state = "01";
-  }
-  else{
-    state = "00"
-  }
-  return "0x05"+state;
-}
-
-const char* leftSignal(){
-  leftSig = digitalRead(leftSignal);
-  state = "00";
-  if(leftSig == HIGH){
-    state = "01";
-  }
-  else{
-    state = "00";
-  }
-  return "0x02"+state;
-}
-
-const char* rightSignal(){
-  rightSig = digitalRead(rightSignal);
-  state = "00";
-  if(rightSig == HIGH){
-    state = "01";
-  }
-  else{
-    state = "00";
-  }
-
-  return "0x03"+state;
-}
